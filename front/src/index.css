@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-minecraft-green: #83DB2B;
+  --color-minecraft-yellow: #F8BC23;
+  --color-minecraft-red: #9F4636;
+  --color-minecraft-blue: #BFE3FD;
+  --color-minecraft-bg: #1c1c1c;
+
+--font-title: 'Archivo Black', sans-serif;
+  --font-body: 'Roboto', sans-serif;
+}
+body {
+  background-color: var(--color-minecraft-bg);
+  font-family: var(--font-body);
+}
