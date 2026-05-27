@@ -1,4 +1,4 @@
-import Navbar from '../components/Navbar'
+import Navbar from '../components/NavbarPres'
 import HeroSection from '../components/HeroSection'
 import HomeCollection from '../components/HomeCollection'
 import HomeFriend from '../components/HomeFriend'
