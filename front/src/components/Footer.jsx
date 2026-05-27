@@ -4,7 +4,7 @@ export default function Footer() {
     return (
         <footer className="bg-zinc-800/60 border-t border-white/10 px-6 md:px-45 py-3">
             <div className="flex flex-col md:flex-row md:justify-between items-center md:items-start mb-10 gap-6 md:gap-0">
-                <div className="flex flex-col items-center md:items-start mt-4">
+                <div className="flex flex-col items-center md:items-start mt-4 font-title">
                     <span className="text-minecraft-green text-3xl font-bold uppercase leading-tight">
                         Mine.
                     </span>
@@ -17,7 +17,7 @@ export default function Footer() {
                 </div>
 
                 <div className="flex flex-col gap-3 mt-7 items-center md:items-start">
-                    <span className="text-minecraft-green font-bold uppercase text-[25px]">
+                    <span className="text-minecraft-green font-bold uppercase text-[25px] font-title">
                         Suivez nous.
                     </span>
                     <div className="flex gap-4 justify-center">

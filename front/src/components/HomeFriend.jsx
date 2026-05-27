@@ -9,7 +9,7 @@ import bento4 from "../assets/bento4.jpg";
 
 export default function HomeFriend() {
     return (
-        <div className="flex flex-col md:flex-row gap-60 md:mt-10 mb-20">
+        <div className="flex flex-col md:flex-row gap-55 md:mt-10 mb-20">
             <div className="flex justify-start ml-10 md:ml-45 mt-20 flex-col items-center md:items-start gap-1">
                 <h1 className="text-minecraft-green text-[30px] md:text-4xl uppercase font-bold">
                     Fais de nouvelles rencontres !

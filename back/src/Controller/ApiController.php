@@ -31,7 +31,7 @@ final class ApiController extends AbstractController
         return $this->json($card, 200, [], ['groups' => 'card:read']);
     }
 
-    #[Route('/api/register', name: 'api_register', methods: ['POST'])]
+    /*#[Route('/api/register', name: 'api_register', methods: ['POST'])]
     public function register(
         Request $request,
         UserPasswordHasherInterface $hasher,
@@ -52,5 +52,5 @@ final class ApiController extends AbstractController
         $em->flush();
 
         return $this->json(['message' => 'Compte créé avec succès !'], 201);
-    }
+    }*/
 }

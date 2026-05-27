@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
+import { apiFetch } from "../../utils/apiService";
 
 export default function Login() {
     const navigate = useNavigate();
@@ -12,10 +13,13 @@ export default function Login() {
 
     const handleSubmit = async () => {
         try {
-            const res = await fetch("/api/login", {
+            const res = await apiFetch("login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(form),
+                body: JSON.stringify({
+                email: form.identifier, 
+                password: form.password
+            }),
             });
 
             if (!res.ok) {
@@ -24,7 +28,7 @@ export default function Login() {
                 return;
             }
 
-            navigate("/dashboard");
+            navigate("/home");
         } catch {
             setError("Impossible de contacter le serveur.");
         }

@@ -38,7 +38,7 @@ export default function Register() {
                 return;
             }
 
-            navigate("/dashboard");
+            navigate("/home");
         } catch {
             setError("Impossible de contacter le serveur.");
         }

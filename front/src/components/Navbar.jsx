@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import whiteC from '../assets/whiteC.png'
 import Button from './Button'
 
@@ -7,13 +8,17 @@ export default function Navbar() {
 
     <img src={whiteC} alt="Logo" className="w-12 mr-auto" />
       
+    <Link to="/login">
       <Button variant="outline">
         Connexion
       </Button>
+    </Link>
 
+    <Link to="/register">
       <Button>
         Inscription
       </Button>
+    </Link>
 
     </nav>
   )

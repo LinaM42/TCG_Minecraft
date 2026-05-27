@@ -3,41 +3,61 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\RegistrationFormType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): Response
-    {
-        $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->handleRequest($request);
+    #[Route('/api/register', name: 'api_register', methods: ['POST'])]
+    public function register(
+        Request $request, 
+        UserPasswordHasherInterface $userPasswordHasher, 
+        EntityManagerInterface $entityManager,
+        UserRepository $userRepository
+    ): JsonResponse {
+        $data = json_decode($request->getContent(), true);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var string $plainPassword */
-            $plainPassword = $form->get('plainPassword')->getData();
-
-            // encode the plain password
-            $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
-
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            // do anything else you need here, like send an email
-
-            return $security->login($user, 'form_login', 'main');
+        if (!$data) {
+            return new JsonResponse(['message' => 'Données invalides.'], 400);
         }
 
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form,
-        ]);
+        $pseudo = $data['pseudo'] ?? null;
+        $email = $data['email'] ?? null;
+        $password = $data['password'] ?? null;
+
+        if (!$pseudo || !$email || !$password) {
+            return new JsonResponse(['message' => 'Tous les champs sont obligatoires.'], 400);
+        }
+
+        $existingEmail = $userRepository->findOneBy(['email' => $email]);
+        if ($existingEmail) {
+            return new JsonResponse(['message' => 'Cette adresse email est déjà utilisée.'], 400);
+        }
+
+        $existingPseudo = $userRepository->findOneBy(['pseudo' => $pseudo]);
+        if ($existingPseudo) {
+            return new JsonResponse(['message' => 'Ce pseudo est déjà pris.'], 400);
+        }
+
+        // 4. Si tout est OK, création de l'utilisateur
+        $user = new User();
+        $user->setPseudo($pseudo);
+        $user->setEmail($email);
+
+        // Hachage du mot de passe
+        $hashedPassword = $userPasswordHasher->hashPassword($user, $password);
+        $user->setPassword($hashedPassword);
+
+        // Sauvegarde dans la base de données
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        // On retourne un message de succès à React
+        return new JsonResponse(['message' => 'Inscription réussie !'], 201);
     }
 }

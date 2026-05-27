@@ -13,7 +13,7 @@ export default function HomeCollection() {
         <div className="flex gap-60 mt-10">
             <div className="flex flex-col md:flex-row">
                 <div className="flex justify-center md:justify-start md:ml-45 ml-10 mt-20 flex-col items-center md:items-start gap-1">
-                    <h1 className="text-minecraft-green md:text-4xl uppercase font-bold text-[30px] md:text-[60px] text-left">
+                    <h1 className="text-minecraft-green md:text-4xl uppercase font-bold text-[30px] text-left">
                         Échange et collectionne !
                     </h1>
                     <p className="text-white text-md md:mb-10">

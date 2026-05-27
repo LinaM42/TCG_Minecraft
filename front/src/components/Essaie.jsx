@@ -9,7 +9,7 @@ const stats = [
     { label: "Commandes", value: "0", color: "border-minecraft-red" },
 ];
 
-export default function Dashboard() {
+export default function AppHome() {
     return (
         <div className="min-h-screen flex flex-col bg-minecraft-bg text-white">
             <nav className="bg-zinc-900 border-b border-white/10 px-6 md:px-45 py-4 flex justify-between items-center">
@@ -24,7 +24,7 @@ export default function Dashboard() {
 
             <main className="flex-1 px-6 md:px-45 py-10">
                 <h1 className="font-title text-2xl uppercase text-white mb-1">
-                    Dashboard
+                    Tableau de Bord
                 </h1>
                 <p className="text-minecraft-green text-xs uppercase tracking-widest mb-8">
                     Aperçu général

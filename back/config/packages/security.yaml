@@ -1,7 +1,9 @@
 security:
+    # 1. Password hashing
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
 
+    # 2. Where Symfony finds your users (Assuming your User entity uses 'email')
     providers:
         app_user_provider:
             entity:
@@ -10,47 +12,26 @@ security:
 
     firewalls:
         dev:
-            pattern: ^/(_profiler|_wdt|assets|build)/
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        api:
-            pattern: ^/api
+        # 3. The route that handles logging in and returning a JWT
+        login:
+            pattern: ^/api/login
             stateless: true
             json_login:
                 check_path: /api/login
-                username_path: email
-                password_path: password
+                username_path: email # <--- ADD THIS LINE
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        # 4. The protected API firewall
+        api:
+            pattern: ^/api
+            stateless: true
             jwt: ~
 
-        main:
-            lazy: true
-            provider: app_user_provider
-            form_login:
-                login_path: app_login
-                check_path: app_login
-                enable_csrf: true
-                default_target_path: /cards
-                always_use_default_target_path: true
-            logout:
-                path: app_logout
-                target: app_login
-
+    # 5. Access control rules
     access_control:
-        - { path: ^/api/login, roles: PUBLIC_ACCESS }
-        - { path: ^/api/register, roles: PUBLIC_ACCESS }
-        - { path: ^/api,    roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/cards/Create, roles: ROLE_ADMIN }
-        - { path: ^/cards/\d+/edit, roles: ROLE_ADMIN }
-        - { path: ^/cards/\d+/delete, roles: ROLE_ADMIN }
-        - { path: ^/cards, roles: ROLE_USER }
-
-when@test:
-    security:
-        password_hashers:
-            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
-                algorithm: auto
-                cost: 4
-                time_cost: 3
-                memory_cost: 10
+        - { path: ^/api/login_check, roles: PUBLIC_ACCESS }
+        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }

@@ -10,7 +10,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_PSEUDO', fields: ['pseudo'])] // 👈 Sécurité en Base de Données
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['pseudo'], message: 'There is already an account with this pseudo')] // 👈 Sécurité de validation Symfony
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -34,7 +36,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Pseudo = null;
+    private ?string $pseudo = null;
 
     public function getId(): ?int
     {
@@ -117,14 +119,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // @deprecated, to be removed when upgrading to Symfony 8
     }
 
-    public function getPseudo(): ?string
+    // 👇 Corrigé avec la majuscule (CamelCase)
+    public function getPseudo(): ?string 
     {
-        return $this->Pseudo;
+        return $this->pseudo;
     }
 
-    public function setPseudo(string $Pseudo): static
+    // 👇 Corrigé avec la majuscule (CamelCase)
+    public function setPseudo(string $pseudo): static 
     {
-        $this->Pseudo = $Pseudo;
+        $this->pseudo = $pseudo;
 
         return $this;
     }
